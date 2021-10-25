@@ -1,0 +1,147 @@
+body {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 0px;
+  background-color: #151316;
+  color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #cecece;
+}
+
+button {
+  cursor: pointer;
+}
+
+.img-responsiva {
+  width: 100%;
+  height: auto;
+}
+
+.texto-centralizado {
+  text-align: center;
+}
+
+.conteudo-base {
+  padding: 16px 12px;
+}
+
+.pagina-cabecalho {
+  background-color: #131514;
+}
+
+.pagina-cabecalho .cabecalho-logo {
+  width: 70px;
+  height: auto;
+}
+
+.titulo-destaque {
+  font-size: 28px;
+}
+
+.bloco-perfil-base {
+  display: flex;
+  /* height: 400px; */
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.bloco-perfil {
+  cursor: pointer;
+  color: #555354;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  margin: 6px 10px;
+}
+
+.bloco-perfil:hover img {
+  -webkit-box-shadow: 0px -1px 50px -4px rgba(0, 0, 0, 0.13);
+  box-shadow: 0px -1px 50px -4px rgba(0, 0, 0, 0.13);
+}
+
+.bloco-perfil:hover {
+  color: #787577;
+}
+
+.bloco-perfil:hover button {
+  -webkit-box-shadow: 0px -4px 50px -4px rgba(0, 0, 0, 0.41);
+  box-shadow: 0px -4px 50px -4px rgba(0, 0, 0, 0.41);
+}
+
+.bloco-perfil img {
+  /* width: 150px; */
+  min-width: 110px;
+  max-width: 150px;
+}
+
+.bloco-perfil .perfil-img-conteudo {
+  /* border: 1px solid #000; */
+  height: 100%;
+}
+
+.bloco-perfil .bloco-acao {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bloco-perfil button {
+  font-size: 95px;
+  font-weight: bold;
+
+  width: 80px;
+  height: 80px;
+  background-color: #828083;
+
+  border-radius: 50%;
+  border: initial;
+}
+
+.bloco-perfil button span {
+  position: relative;
+  top: -12px;
+}
+
+@media screen and (max-width: 768px) {
+  .titulo-destaque {
+    font-size: 26px;
+  }
+
+  .bloco-perfil {
+    min-width: 150px;
+    width: 40%;
+  }
+
+  .bloco-perfil .perfil-img-conteudo {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .titulo-destaque {
+    font-size: 20px;
+  }
+
+  .pagina-cabecalho {
+    background-color: transparent;
+  }
+
+  .pagina-cabecalho .cabecalho-logo {
+    width: 90px;
+  }
+
+  .bloco-perfil {
+    margin: 8px 10px;
+  }
+}
