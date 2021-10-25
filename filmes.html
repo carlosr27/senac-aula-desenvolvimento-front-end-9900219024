@@ -21,7 +21,12 @@
     <script src="js/filmes.js" type="text/javascript"></script>
   </head>
   <body>
-    <header class="pagina-cabecalho pagina-cabecalho--internas conteudo-base">
+    <header
+      class="
+        pagina-cabecalho pagina-cabecalho--fixo pagina-cabecalho--internas
+        conteudo-base
+      "
+    >
       <div class="container">
         <div class="row flex-nowrap align-items-center justify-content-between">
           <div class="col-auto d-flex align-items-center">
@@ -51,16 +56,22 @@
             >
               <span class="mdi mdi-menu toggler-icon header-icons"></span>
             </button>
-            <div class="bloco-busca">
+            <div class="bloco-busca d-none d-lg-flex">
+              <a
+                id="buscarFilmes"
+                href="#"
+                type="button"
+                data-ativo="false"
+                class="d-none d-md-block me-2"
+              >
+                <span class="mdi mdi-magnify header-icons"></span>
+              </a>
               <input
                 type="text"
                 name="busca"
                 placeholder="Títulos, gente e gêneros"
               />
             </div>
-            <a href="#" type="button" class="d-none d-md-block me-2"
-              ><span class="mdi mdi-magnify header-icons"></span
-            ></a>
             <div class="dropdown">
               <a
                 id="blocoNovidades"
@@ -171,9 +182,9 @@
     </nav>
     <section>
       <div class="container">
-        <div class="row my-4">
-          <div class="col-12 pt-4">
-            <h5>Populares</h5>
+        <div class="row my-4 listagem-categorias">
+          <div class="col-12 pt-4 categorias-item d-none">
+            <h5 class="categoria-titulo">Populares</h5>
             <div
               id="carouselPopulares"
               class="carousel slide"
@@ -337,7 +348,7 @@
                 </div>
               </div>
               <button
-                class="carousel-control-prev"
+                class="carousel-control carousel-control-prev"
                 type="button"
                 data-bs-target="#carouselPopulares"
                 data-bs-slide="prev"
@@ -349,389 +360,9 @@
                 <span class="visually-hidden">Anterior</span>
               </button>
               <button
-                class="carousel-control-next"
+                class="carousel-control carousel-control-next"
                 type="button"
                 data-bs-target="#carouselPopulares"
-                data-bs-slide="next"
-              >
-                <span
-                  class="mdi mdi-chevron-right carousel-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Proximo</span>
-              </button>
-            </div>
-          </div>
-          <div class="col-12 pt-4">
-            <h5>Adicionados recentemente</h5>
-            <div
-              id="carouselAdicionadosRecentemente"
-              class="carousel slide"
-              data-bs-ride="carousel"
-              data-bs-interval="false"
-            >
-              <div class="carousel-navegacao carousel-indicators">
-                <button
-                  type="button"
-                  data-bs-target="#carouselAdicionadosRecentemente"
-                  data-bs-slide-to="0"
-                  class="active"
-                  aria-current="true"
-                  aria-label="Slide 1"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselAdicionadosRecentemente"
-                  data-bs-slide-to="1"
-                  aria-label="Slide 2"
-                ></button>
-              </div>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <div class="listagem-filmes d-flex align-items-center">
-                    <!-- <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <img
-                            src="imagens/fundo-inicio.jpg"
-                            class="img-fluid"
-                          />
-                        </figure>
-                      </a>
-                    </div> -->
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/fundo-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <div class="listagem-filmes d-flex align-items-center">
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselAdicionadosRecentemente"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="mdi mdi-chevron-left carousel-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Anterior</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselAdicionadosRecentemente"
-                data-bs-slide="next"
-              >
-                <span
-                  class="mdi mdi-chevron-right carousel-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Proximo</span>
-              </button>
-            </div>
-          </div>
-          <div class="col-12 pt-4">
-            <h5>Terror</h5>
-            <div
-              id="carouselTerror"
-              class="carousel slide"
-              data-bs-ride="carousel"
-              data-bs-interval="false"
-            >
-              <div class="carousel-navegacao carousel-indicators">
-                <button
-                  type="button"
-                  data-bs-target="#carouselTerror"
-                  data-bs-slide-to="0"
-                  class="active"
-                  aria-current="true"
-                  aria-label="Slide 1"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselTerror"
-                  data-bs-slide-to="1"
-                  aria-label="Slide 2"
-                ></button>
-              </div>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <div class="listagem-filmes d-flex align-items-center">
-                    <!-- <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <img
-                            src="imagens/fundo-inicio.jpg"
-                            class="img-fluid"
-                          />
-                        </figure>
-                      </a>
-                    </div> -->
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/fundo-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <div class="listagem-filmes d-flex align-items-center">
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                    <div class="listagem-filmes-item">
-                      <a href="filme.html" class="">
-                        <figure class="mb-0">
-                          <div
-                            class="imagem-background imagem-background--cover"
-                            style="
-                              background-image: url(imagens/senac-inicio.jpg);
-                            "
-                          ></div>
-                        </figure>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselTerror"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="mdi mdi-chevron-left carousel-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Anterior</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselTerror"
                 data-bs-slide="next"
               >
                 <span
