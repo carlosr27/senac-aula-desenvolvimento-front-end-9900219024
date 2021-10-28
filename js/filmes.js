@@ -1,166 +1,3 @@
-const perfis = [
-  {
-    id: 1,
-    nome: "Teste 1",
-    fundo: "dodgerblue",
-  },
-  {
-    id: 2,
-    nome: "Teste 2",
-    fundo: "green",
-  },
-  // {
-  //   id: 3,
-  //   nome: "Teste 3",
-  //   fundo: "red",
-  // },
-  // {
-  //   id: 4,
-  //   nome: "Teste 4",
-  //   fundo: "grey",
-  // },
-];
-
-const filmes = [
-  {
-    id: 1,
-    categorias: ["terror", "populares", "adicionados recentemente"],
-    nome: "Teste filme terror",
-    etaria: "16",
-    tempo: 60,
-    ano_lancamento: "2021",
-    infos: {
-      estrelando: ["Ator #1", "Ator #2", "Ator #3"],
-      criacao: ["Diretor #1"],
-    },
-  },
-  {
-    id: 2,
-    categorias: ["terror", "populares"],
-    nome: "Teste serie terror",
-    etaria: "18",
-    infos: {
-      estrelando: ["Ator #1", "Ator #2", "Ator #3"],
-      criacao: ["Diretor #1"],
-    },
-    temporadas: [
-      {
-        temporada: 1,
-        ano_lancamento: "2018",
-        episodios: [
-          {
-            id: "1.1",
-            nome: "EP teste",
-            descricao:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id rhoncus dui. Vestibulum vel elit pellentesque, tincidunt leo a, tincidunt magna. Etiam et auctor libero.",
-            tempo: 50,
-          },
-          {
-            id: "1.2",
-            nome: "EP teste 2",
-            descricao:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id rhoncus dui. Vestibulum vel elit pellentesque, tincidunt leo a, tincidunt magna. Etiam et auctor libero.",
-            tempo: 52,
-          },
-          {
-            id: "1.3",
-            nome: "EP teste 3",
-            descricao:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id rhoncus dui. Vestibulum vel elit pellentesque, tincidunt leo a, tincidunt magna. Etiam et auctor libero.",
-            tempo: 55,
-          },
-        ],
-      },
-      {
-        temporada: 2,
-        ano_lancamento: "2020",
-        episodios: [
-          {
-            id: "2.1",
-            nome: "EP teste",
-            descricao:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id rhoncus dui. Vestibulum vel elit pellentesque, tincidunt leo a, tincidunt magna. Etiam et auctor libero.",
-            tempo: 50,
-          },
-          {
-            id: "2.2",
-            nome: "EP teste 2",
-            descricao:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id rhoncus dui. Vestibulum vel elit pellentesque, tincidunt leo a, tincidunt magna. Etiam et auctor libero.",
-            tempo: 52,
-          },
-          {
-            id: "2.3",
-            nome: "EP teste 3",
-            descricao:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id rhoncus dui. Vestibulum vel elit pellentesque, tincidunt leo a, tincidunt magna. Etiam et auctor libero.",
-            tempo: 55,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 3,
-    categorias: ["terror", "populares", "adicionados recentemente"],
-    nome: "Teste filme terror #2",
-    etaria: "12",
-    tempo: 50,
-    ano_lancamento: "2020",
-    infos: {
-      estrelando: ["Ator #1", "Ator #2", "Ator #3"],
-      criacao: ["Diretor #1"],
-    },
-  },
-  {
-    id: 4,
-    categorias: ["terror", "populares"],
-    nome: "Teste filme terror #3",
-    etaria: "12",
-    tempo: 55,
-    ano_lancamento: "2020",
-    infos: {
-      estrelando: ["Ator #1", "Ator #2", "Ator #3"],
-      criacao: ["Diretor #1"],
-    },
-  },
-  {
-    id: 5,
-    categorias: ["terror", "populares"],
-    nome: "Teste filme terror #4",
-    etaria: "12",
-    tempo: 55,
-    ano_lancamento: "2020",
-    infos: {
-      estrelando: ["Ator #1", "Ator #2", "Ator #3"],
-      criacao: ["Diretor #1"],
-    },
-  },
-  {
-    id: 6,
-    categorias: ["terror", "populares"],
-    nome: "Teste filme terror #5",
-    etaria: "12",
-    tempo: 55,
-    ano_lancamento: "1964",
-    infos: {
-      estrelando: ["Ator #1", "Ator #2", "Ator #3"],
-      criacao: ["Diretor #1"],
-    },
-  },
-];
-
-const novidades = [
-  {
-    imagem: "imagens/senac-inicio.jpg",
-    link: "#",
-    tipo: "teste",
-    texto: "teste Tem alguém na sua casa",
-    info: "há 2 diastttttt",
-    visualizado: false,
-  },
-];
-
 var meuPerfil;
 var modeloPerfil;
 
@@ -356,6 +193,7 @@ function carregarSlideFilmes() {
 
   const base = document.querySelector(".listagem-categorias");
   Object.keys(categorias).forEach((categoria) => {
+    console.log("Categoria", categorias[categoria]);
     const modeloItem = modelo.cloneNode(true);
 
     const categoria_titulo = encontrarFilho(
@@ -368,16 +206,94 @@ function carregarSlideFilmes() {
       modeloItem.childNodes,
       callbackClassList(modeloItem.childNodes, "carousel")
     );
-    const id_carousel = `carousel_${categoria.split(" ").join("_")}`;
+
+    const carousel_inner = encontrarFilho(
+      carousel.childNodes,
+      callbackClassList(carousel.childNodes, "carousel-inner")
+    );
+
+    const modeloListagemItem = encontrarFilho(
+      carousel_inner.childNodes,
+      callbackClassList(carousel_inner.childNodes, "carousel-item")
+    ).cloneNode();
+    modeloListagemItem.classList.remove("active");
+    carousel_inner.innerHTML = "";
+
+    const filmes_categoria = [...categorias[categoria]];
+    const carouselFilmesItens = [];
+    do {
+      const filmes_splice = filmes_categoria.splice(0, 5);
+      const carousel_item = modeloListagemItem.cloneNode();
+
+      if (carouselFilmesItens.length === 0)
+        carousel_item.classList.add("active");
+
+      const el_listagem_filmes = document.createElement("div");
+      el_listagem_filmes.classList.add(
+        ...["listagem-filmes", "d-flex", "align-items-center"]
+      );
+      filmes_splice.forEach((filme) => {
+        const el_filme_link = document.createElement("a");
+        el_filme_link.href = `filme.html?id=${filme.id}&nome=${filme.nome}`;
+        el_filme_link.classList.add("listagem-filmes-item");
+        const el_filme_figure = document.createElement("figure");
+        el_filme_figure.classList.add("mb-0");
+        const el_filme_imagem = document.createElement("div");
+        el_filme_imagem.classList.add(
+          ...["imagem-background", "imagem-background--cover"]
+        );
+        el_filme_imagem.style.backgroundImage = `url(${filme.imagem})`;
+
+        el_filme_figure.appendChild(el_filme_imagem);
+        el_filme_link.appendChild(el_filme_figure);
+        el_listagem_filmes.appendChild(el_filme_link);
+      });
+
+      carousel_item.appendChild(el_listagem_filmes);
+      carousel_inner.appendChild(carousel_item);
+
+      carouselFilmesItens.push(filmes_splice);
+    } while (filmes_categoria.length);
+
+    const id_carousel = `carousel${categoria.split(" ").join("")}`;
     carousel.id = id_carousel;
 
-    encontrarFilhos(
+    const navegacao = encontrarFilho(
+      carousel.childNodes,
+      callbackClassList(carousel.childNodes, "carousel-navegacao")
+    );
+
+    const carousel_controls = encontrarFilhos(
       carousel.childNodes,
       callbackClassList(carousel.childNodes, "carousel-control")
-    ).forEach((control) => {
-      control.dataset.bsTarget = id_carousel;
-      console.log(control.dataset);
-    });
+    );
+
+    const modeloNavegacao = encontrarFilho(
+      navegacao.childNodes,
+      callbackTagName(navegacao.childNodes, "button")
+    ).cloneNode();
+    modeloNavegacao.classList.remove("active");
+
+    navegacao.innerHTML = "";
+    for (let i = 0; i < carouselFilmesItens.length; i++) {
+      const itemNavegacao = modeloNavegacao.cloneNode();
+      itemNavegacao.dataset.bsTarget = `#${id_carousel}`;
+      itemNavegacao.dataset.bsSlideTo = i;
+      itemNavegacao.ariaLabel = `Slide ${i}`;
+
+      if (i === 0) itemNavegacao.classList.add("active");
+
+      navegacao.appendChild(itemNavegacao);
+    }
+
+    if (carouselFilmesItens.length > 1) {
+      carousel_controls.forEach((control) => {
+        control.dataset.bsTarget = `#${id_carousel}`;
+        console.log(control.dataset);
+      });
+    } else {
+      carousel_controls.forEach((control) => control.remove());
+    }
 
     base.appendChild(modeloItem);
   });

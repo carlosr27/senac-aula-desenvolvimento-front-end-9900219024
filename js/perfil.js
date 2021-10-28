@@ -1,26 +1,3 @@
-const perfis = [
-  {
-    id: 1,
-    nome: "Teste 1",
-    fundo: "dodgerblue",
-  },
-  {
-    id: 2,
-    nome: "Teste 2",
-    fundo: "green",
-  },
-  // {
-  //   id: 3,
-  //   nome: "Teste 3",
-  //   fundo: "red",
-  // },
-  // {
-  //   id: 4,
-  //   nome: "Teste 4",
-  //   fundo: "grey",
-  // },
-];
-
 var modeloPerfil;
 
 function adicionarPerfil(event) {
