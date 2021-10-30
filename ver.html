@@ -40,22 +40,33 @@
       </div>
       <div class="video-player-conteudo">
         <video src="static/video-teste.mp4"></video>
-      </div>
-      <footer class="container-fluid d-none">
-        <div class="video-tempo"></div>
-        <div class="video-comandos">
-          <button type="button" class="btn text-white rounded-circle js-play">
+        <div class="video-controle-retorno" style="display: none">
+          <div class="controle-retorno rounded-circle">
             <span class="mdi mdi-pause"></span>
-          </button>
-          <button type="button" class="btn text-white rounded-circle js-volume">
-            <span class="mdi mdi-volume-high"></span>
-          </button>
-          <div class="flex-grow-1"></div>
-          <button type="button" class="btn text-white rounded-circle js-fullscreen">
-            <span class="mdi mdi-fullscreen"></span>
-          </button>
+          </div>
         </div>
-      </footer>
+        <div class="video-controles container-fluid d-none">
+          <div class="video-tempo"></div>
+          <div class="video-controles-conteudo">
+            <button type="button" class="btn text-white rounded-circle js-play">
+              <span class="mdi mdi-pause"></span>
+            </button>
+            <button
+              type="button"
+              class="btn text-white rounded-circle js-volume"
+            >
+              <span class="mdi mdi-volume-high"></span>
+            </button>
+            <div class="flex-grow-1"></div>
+            <button
+              type="button"
+              class="btn text-white rounded-circle js-fullscreen"
+            >
+              <span class="mdi mdi-fullscreen"></span>
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"

@@ -42,7 +42,11 @@ function montarVideo() {
 
 function iniciarVideo() {
   $(".video-placeholder, header").fadeOut("600", function () {
-    $("video").trigger("play").prop("volume", 0.03);
+    $("video")
+      .trigger("play")
+      .prop("volume", 0.03)
+      .unbind("click")
+      .on("click", playPauseVideo);
     $("#videoPlayer").addClass("sem-cursor");
 
     $(".js-play").unbind("click").on("click", playPauseVideo);
@@ -51,10 +55,10 @@ function iniciarVideo() {
 
     $("#videoPlayer").on("mousemove", function () {
       $("#videoPlayer").removeClass("sem-cursor");
-      $("header, footer").css("display", "").removeClass("d-none");
+      $("header, .video-controles").css("display", "").removeClass("d-none");
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        $("header, footer").fadeOut("600");
+        $("header, .video-controles").fadeOut("600");
         $("#videoPlayer").addClass("sem-cursor");
       }, 2000);
     });
@@ -64,20 +68,44 @@ function iniciarVideo() {
 function playPauseVideo(event) {
   const video = $("video");
   const paused = video.prop("paused");
-  console.log(event);
+  const fadeTempo = "600";
 
   if (paused) {
     video.trigger("play");
-    $(event.currentTarget)
-      .children("span")
-      .removeClass("mdi-play")
-      .addClass("mdi-pause");
-  } else {
-    video.trigger("pause");
-    $(event.currentTarget)
-      .children("span")
+    $(".js-play span").removeClass("mdi-play").addClass("mdi-pause");
+    $(".video-controle-retorno")
+      .fadeToggle({
+        duration: fadeTempo,
+        start: function () {
+          $(this).addClass("controle-aumentar");
+        },
+        done: function () {
+          $(this).fadeToggle(fadeTempo, function () {
+            $(this).removeClass("controle-aumentar");
+          });
+        },
+      })
+      .find("span")
       .removeClass("mdi-pause")
       .addClass("mdi-play");
+  } else {
+    video.trigger("pause");
+    $(".js-play span").removeClass("mdi-pause").addClass("mdi-play");
+    $(".video-controle-retorno")
+      .fadeToggle({
+        duration: fadeTempo,
+        start: function () {
+          $(this).addClass("controle-aumentar");
+        },
+        done: function () {
+          $(this).fadeToggle(fadeTempo, function () {
+            $(this).removeClass("controle-aumentar");
+          });
+        },
+      })
+      .find("span")
+      .removeClass("mdi-play")
+      .addClass("mdi-pause");
   }
 }
 
@@ -101,10 +129,23 @@ function volumeVideo(event) {
 }
 
 function fullscreenVideo(event) {
-  const video = $("video");
+  const videoConteudo = $(".video-player-conteudo");
   // const fullScreen = video.prop("volume") === 0;
 
-  video.trigger("requestFullscreen");
+  if (videoConteudo.hasClass("fullscreen")) {
+    videoConteudo.removeClass("fullscreen");
+    $(event.currentTarget)
+      .children("span")
+      .removeClass("mdi-fullscreen-exit")
+      .addClass("mdi-fullscreen");
+    document.exitFullscreen();
+  } else {
+    videoConteudo.addClass("fullscreen").trigger("requestFullscreen");
+    $(event.currentTarget)
+      .children("span")
+      .removeClass("mdi-fullscreen")
+      .addClass("mdi-fullscreen-exit");
+  }
 }
 
 $(document).ready(function () {
