@@ -90,7 +90,7 @@ function verificarMaximoPerfil() {
   }
 }
 
-window.onload = function () {
+$(document).ready(function () {
   botoesSair();
 
   carregarPerfis();
@@ -99,6 +99,6 @@ window.onload = function () {
   document
     .querySelector("#formAdicionarPerfil")
     .addEventListener("submit", adicionarPerfil);
-};
+});
 
 redirecionarLogin(false);

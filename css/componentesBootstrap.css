@@ -1,0 +1,86 @@
+#accordionPerguntas.accordion {
+  max-width: 750px;
+  width: 100%;
+
+  margin: 20px auto 0px auto;
+
+  background-color: transparent;
+}
+
+#accordionPerguntas .accordion-item {
+  margin: 10px 0px;
+  border-width: 0px;
+  border-radius: initial;
+
+  background-color: transparent;
+}
+
+#accordionPerguntas .accordion-item .accordion-header .accordion-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#accordionPerguntas
+  .accordion-item
+  .accordion-header
+  .accordion-button
+  span.mdi {
+  transition: transform 0.2s linear;
+  font-size: 22px;
+}
+
+#accordionPerguntas
+  .accordion-item
+  .accordion-header
+  .accordion-button.collapsed
+  span.mdi {
+  transform: rotate(180deg);
+}
+
+#accordionPerguntas .accordion-header .accordion-button,
+#accordionPerguntas .accordion-body {
+  border-radius: inherit;
+  background-color: #303030;
+  color: #fff;
+
+  padding: 22px 20px;
+}
+
+#accordionPerguntas .accordion-header .accordion-button::after {
+  content: initial;
+}
+
+.carousel .carousel-navegacao {
+  position: absolute;
+  top: -25px;
+  right: 0px;
+  left: initial;
+  margin: 0px;
+  z-index: 1;
+}
+
+/* .carousel .carousel-navegacao button {
+  border: none;
+  background-color: #555354;
+} */
+
+.carousel-control-next,
+.carousel-control-prev {
+  width: 100%;
+  max-width: 75px;
+  min-width: 38px;
+  z-index: 2;
+  /* bottom: initial; */
+}
+
+.carousel-control-next:hover,
+.carousel-control-prev:hover {
+  opacity: 1;
+  background-color: rgba(46, 46, 46, 0.6);
+}
+
+.carousel-control-next .carousel-next-icon,
+.carousel-control-prev .carousel-prev-icon {
+  font-size: 66px;
+}
