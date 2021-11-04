@@ -491,6 +491,18 @@ footer .btn-outline-light--footer {
   flex-direction: row;
 }
 
+#videoPlayer .video-controles .video-tempo input {
+  width: 100%;
+}
+
+#videoPlayer .video-controles .video-tempo input::-ms-fill-lower {
+  background-color: red;
+}
+
+#videoPlayer .video-controles .video-tempo input::-ms-fill-upper {
+  background-color: #575757;
+}
+
 #videoPlayer .video-placeholder {
   position: absolute;
   width: 100%;

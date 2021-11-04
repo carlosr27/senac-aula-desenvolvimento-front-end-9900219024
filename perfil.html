@@ -16,6 +16,7 @@
     <link href="css/componentesBootstrap.css" rel="stylesheet" />
     <link href="css/media.css" rel="stylesheet" />
 
+    <script src="assets/js/jquery.min.js"></script>
     <script src="js/storage.js" type="text/javascript"></script>
     <script src="js/auth.js" type="text/javascript"></script>
     <script src="js/reset.js" type="text/javascript"></script>
@@ -55,26 +56,28 @@
             flex-md-nowrap
           "
         >
-          <div
-            class="
-              perfil-item
-              col-12 col-sm-6 col-md-auto
-              d-flex
-              flex-shrink-1
-              justify-content-center
-            "
-          >
-            <a href="filmes.html" class="bloco-perfil">
-              <div class="perfil-img-conteudo">
-                <img
-                  src="imagens/perfil.png"
-                  alt="Imagem bloco 1"
-                  class="img-responsiva"
-                />
-              </div>
-              <p class="perfil-nome texto-centralizado mb-0 mt-3">Mãe</p>
-            </a>
-          </div>
+          <template class="perfil-item-modelo">
+            <div
+              class="
+                perfil-item
+                col-12 col-sm-6 col-md-auto
+                d-flex
+                flex-shrink-1
+                justify-content-center
+              "
+            >
+              <a href="filmes.html" class="bloco-perfil">
+                <div class="perfil-img-conteudo">
+                  <img
+                    src="imagens/perfil.png"
+                    alt="Imagem bloco 1"
+                    class="img-responsiva"
+                  />
+                </div>
+                <p class="perfil-nome texto-centralizado mb-0 mt-3">Mãe</p>
+              </a>
+            </div>
+          </template>
           <div
             class="
               col-12 col-sm-6 col-md-auto

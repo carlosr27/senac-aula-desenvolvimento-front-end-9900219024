@@ -1,92 +1,59 @@
-var modeloPerfil;
-
 function adicionarPerfil(event) {
   event.preventDefault();
-  const form = {};
-  Object.keys(event.target.elements)
-    .filter((el) => !Number(el) && el !== "0")
-    .forEach((el) => {
-      if (event.target.elements[el].type === "checkbox") {
-        form[el] = event.target.elements[el].checked;
-        event.target.elements[el].checked = false;
-      } else {
-        form[el] = event.target.elements[el].value;
-        event.target.elements[el].value = "";
-      }
+  const form = {
+    ...storage.perfis[0],
+    id: storage.perfis.slice(-1)[0].id + 1 || 1,
+  };
+  $(event.target)
+    .find("input")
+    .each((indice, valor) => {
+      form[$(valor).attr("name")] = $(valor).val();
     });
 
-  form.id = perfis[perfis.length - 1].id + 1;
-  perfis.push(form);
+  storage.perfis.push(form);
+  addValoresStorage("perfis", storage.perfis);
 
-  document.querySelectorAll(".perfil-item").forEach((el) => {
-    el.removeEventListener("click", function () {});
-    el.remove();
-  });
-  const modalElemento = document.querySelector("#modalAdicionarPerfil");
-  const modal = bootstrap.Modal.getInstance(modalElemento);
+  $(".perfil-item")
+    .unbind("click", () => {})
+    .remove();
+
+  const modal = bootstrap.Modal.getInstance($("#modalAdicionarPerfil").get(0));
   modal.hide();
 
-  verificarMaximoPerfil();
+  verificarMaximoPerfils();
   carregarPerfis();
 }
 
 function carregarPerfis() {
-  if (!modeloPerfil) {
-    const itemBase = document.querySelector(".perfil-item");
-    itemBase.classList.remove("d-none");
-    itemBase.remove();
-    modeloPerfil = itemBase.cloneNode(true);
-    modeloPerfil.classList.add("d-flex");
-  }
+  const itemTemplate = $("template.perfil-item-modelo");
+  storage.perfis.forEach((el) => {
+    const modelo = $(itemTemplate.prop("content")).clone();
 
-  const base = document.querySelector(".perfil-base");
-  const perfilAddElement = document.querySelector(
-    ".perfil-base .js-btn-adicionar"
-  );
+    modelo
+      .find(".bloco-perfil")
+      .attr("data-perfil", el.id)
+      .on("click", selecionarPerfil);
 
-  const encontrarElemento = function (base, classItem) {
-    return Object.keys(base)
-      .filter(
-        (chave) =>
-          base[chave].classList && base[chave].classList.contains(classItem)
-      )
-      .map((chave) => base[chave])[0];
-  };
+    modelo.find(".perfil-img-conteudo > img").css("background-color", el.fundo);
 
-  perfis.forEach((el) => {
-    const modeloItem = modeloPerfil.cloneNode(true);
-    const itemLink = encontrarElemento(modeloItem.childNodes, "bloco-perfil");
-    itemLink.dataset.perfil = el.id;
-    itemLink.addEventListener("click", selecionarPerfil);
+    modelo.find(".perfil-nome").text(el.nome);
 
-    const imgBloco = encontrarElemento(
-      itemLink.childNodes,
-      "perfil-img-conteudo"
-    );
-    imgBloco.style.backgroundColor = el.fundo;
-
-    const perfilNome = encontrarElemento(itemLink.childNodes, "perfil-nome");
-    perfilNome.innerText = el.nome;
-
-    base.insertBefore(modeloItem, perfilAddElement);
+    modelo.insertBefore(".perfil-base .js-btn-adicionar");
   });
 }
 
 function selecionarPerfil(event) {
   const perfilId = event.currentTarget.dataset.perfil;
-  const perfil = perfis.filter((el) => el.id === Number(perfilId))[0];
+  const perfil = storage.perfis.filter((el) => el.id === Number(perfilId))[0];
 
   localStorage.setItem("perfil", JSON.stringify(perfil));
 }
 
-function verificarMaximoPerfil() {
+function verificarMaximoPerfils() {
   const max = 4;
 
-  if (perfis.length === max) {
-    const perfilAddElement = document.querySelector(
-      ".perfil-base .js-btn-adicionar"
-    );
-    perfilAddElement.classList.add("d-none");
+  if (storage.perfis.length === max) {
+    $(".perfil-base .js-btn-adicionar").addClass("d-none");
   }
 }
 
@@ -94,7 +61,7 @@ $(document).ready(function () {
   botoesSair();
 
   carregarPerfis();
-  verificarMaximoPerfil();
+  verificarMaximoPerfils();
 
   document
     .querySelector("#formAdicionarPerfil")

@@ -236,6 +236,11 @@ function carregarValoresStorage(chave, valores_atuais) {
   }
 }
 
+function addValoresStorage(chave, valores) {
+  localStorage.setItem(chave, JSON.stringify(valores));
+  carregarValoresStorage(chave, storage[chave]);
+}
+
 Object.keys(storage).forEach((item) => {
   carregarValoresStorage(item, storage[item]);
 });

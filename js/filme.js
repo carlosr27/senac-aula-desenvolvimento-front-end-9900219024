@@ -1,5 +1,6 @@
 let filme;
 let eFilme;
+const filmes = storage.filmes;
 
 function carregarFilme() {
   const searchParams = new URLSearchParams(window.location.search);

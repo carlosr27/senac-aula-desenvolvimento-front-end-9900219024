@@ -1,7 +1,18 @@
 let filme;
 let ep = {};
-
 let timeoutId;
+let controleTempo = false;
+
+const filmes = storage.filmes;
+
+function alterarTempo(target) {
+  controleTempo = true;
+  $("#videoPlayer video").prop("currentTime", target.currentTarget.value);
+
+  setTimeout(() => {
+    controleTempo = false;
+  }, 1000);
+}
 
 function carregarFilme() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -10,13 +21,6 @@ function carregarFilme() {
 
   filme = filmes.filter((el) => el.id === Number(filmeId))[0];
   if (!filme) window.location.href = "filmes.html";
-  console.log(
-    "VALOR DO REDUCE",
-    filme.temporadas.reduce((total, atual) => {
-      total.push(...atual.episodios);
-      return total;
-    }, [])
-  );
   if (epId)
     ep = filme.temporadas
       .reduce((total, atual) => {
@@ -42,7 +46,9 @@ function montarVideo() {
 
 function iniciarVideo() {
   $(".video-placeholder, header").fadeOut("600", function () {
-    $("video")
+    const video = $("#videoPlayer video");
+
+    video
       .trigger("play")
       .prop("volume", 0.03)
       .unbind("click")
@@ -52,6 +58,20 @@ function iniciarVideo() {
     $(".js-play").unbind("click").on("click", playPauseVideo);
     $(".js-volume").unbind("click").on("click", volumeVideo);
     $(".js-fullscreen").unbind("click").on("click", fullscreenVideo);
+    $(".video-tempo input")
+      .unbind("mousedown")
+      .on("mousedown", () => (controleTempo = true))
+      .unbind("mouseup")
+      .on("mouseup", () => (controleTempo = false))
+      .unbind("change")
+      .on("change", alterarTempo);
+
+    const duracao = video.prop("duration");
+    $("#videoTempo").attr("max", parseInt(duracao));
+    video.on("timeupdate", function () {
+      if (!controleTempo)
+        $("#videoTempo").prop("value", parseInt(video.prop("currentTime")));
+    });
 
     $("#videoPlayer").on("mousemove", function () {
       $("#videoPlayer").removeClass("sem-cursor");
