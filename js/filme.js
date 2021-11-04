@@ -178,7 +178,7 @@ function montarVideos() {
 function adicionarMinhaLista(event) {
   const adicionado = Number(event.currentTarget.dataset.adicionado);
   const perfilSalvo = JSON.parse(localStorage.getItem("perfil"));
-  const perfil = perfis.filter((el) => el.id === perfilSalvo.id)[0];
+  const perfil = storage.perfis.filter((el) => el.id === perfilSalvo.id)[0];
 
   if (adicionado) {
     perfil.favoritos = perfil.favoritos.filter((el) => el !== filme.id);
@@ -191,13 +191,13 @@ function adicionarMinhaLista(event) {
   }
   event.currentTarget.dataset.adicionado = Number(!adicionado);
 
-  localStorage.setItem("perfis", JSON.stringify(perfis));
+  addValoresStorage("perfis", storage.perfis)
   localStorage.setItem("perfil", JSON.stringify(perfil));
 }
 
 function likeDeslikeFilme(event) {
   const perfilSalvo = JSON.parse(localStorage.getItem("perfil"));
-  const perfil = perfis.filter((el) => el.id === perfilSalvo.id)[0];
+  const perfil = storage.perfis.filter((el) => el.id === perfilSalvo.id)[0];
   const like = event.currentTarget.classList.contains("js-like");
 
   const likeElemento = $(".js-like");
@@ -242,7 +242,7 @@ function likeDeslikeFilme(event) {
     }
   }
 
-  localStorage.setItem("perfis", JSON.stringify(perfis));
+  addValoresStorage("perfis", storage.perfis)
   localStorage.setItem("perfil", JSON.stringify(perfil));
 }
 

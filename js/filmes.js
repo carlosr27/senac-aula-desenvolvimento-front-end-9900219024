@@ -1,162 +1,80 @@
-var meuPerfil;
-var modeloPerfil;
-
-// TRANSFORMAR EM GLOBAIS
-const callbackTagName = (base, tagname) => (chave) =>
-  base[chave].tagName && base[chave].tagName.toLowerCase() === tagname;
-
-// DUAS FUNÇOES EXECUTAM IGUAIS
-// (base, classItem) => (chave) => base[chave].classList && base[chave].classList.contains(classItem);
-const callbackClassList = function (base, classItem) {
-  return function (chave) {
-    return base[chave].classList && base[chave].classList.contains(classItem);
-  };
-};
-
-const encontrarFilho = function (base, funcaoFilter) {
-  return Object.keys(base)
-    .filter(funcaoFilter)
-    .map((chave) => base[chave])[0];
-};
-
-const encontrarFilhos = function (base, funcaoFilter) {
-  return Object.keys(base)
-    .filter(funcaoFilter)
-    .map((chave) => base[chave]);
-};
+let meuPerfil;
 
 function carregarPerfil() {
   meuPerfil = JSON.parse(localStorage.getItem("perfil"));
-
-  const perfilElemento = document.querySelector("#meuPerfil");
-
-  const perfilFigure = encontrarFilho(
-    perfilElemento.childNodes,
-    callbackTagName(perfilElemento.childNodes, "figure")
-  );
-  perfilFigure.style.backgroundColor = meuPerfil.fundo;
+  $("#meuPerfil figure").css("background-color", meuPerfil.fundo);
 }
 
 function carregarPerfis() {
-  if (!modeloPerfil) {
-    const itemBase = document.querySelector("#menuPerfis .menu-perfil-item");
-    itemBase.classList.remove("d-none");
-    itemBase.remove();
-    modeloPerfil = itemBase.cloneNode(true);
-  }
+  const itemTemplate = $("#menuPerfis template.menu-perfil-modelo");
+  const modelo = $(itemTemplate.prop("content")).clone();
 
-  const base = document.querySelector("#menuPerfis");
-  const perfilAddElement = document.querySelector(".js-item-base");
-
-  perfis
+  storage.perfis
     .filter((perfil) => perfil.id !== meuPerfil.id)
-    .forEach((perfil) => {
-      const modeloItem = modeloPerfil.cloneNode(true);
+    .forEach((el) => {
+      const modeloItem = modelo.clone();
 
-      const itemLink = encontrarFilho(
-        modeloItem.childNodes,
-        callbackClassList(modeloItem.childNodes, "dropdown-item")
-      );
+      modeloItem
+        .find(".dropdown-item")
+        .attr("data-perfil", el.id)
+        .unbind("click")
+        .on("click", selecionarPerfil)
+        .find("span")
+        .text(el.nome);
 
-      itemLink.dataset.perfil = perfil.id;
-      itemLink.addEventListener("click", selecionarPerfil);
-      const itemLinkTexto = encontrarFilho(
-        itemLink.childNodes,
-        callbackTagName(itemLink.childNodes, "span")
-      );
-      itemLinkTexto.innerText = perfil.nome;
+      modeloItem.find("figure").css("background-color", el.fundo);
 
-      const itemFigure = encontrarFilho(
-        itemLink.childNodes,
-        callbackTagName(itemLink.childNodes, "figure")
-      );
-      itemFigure.style.backgroundColor = perfil.fundo;
-
-      base.insertBefore(modeloItem, perfilAddElement);
+      modeloItem.insertBefore("#menuPerfis .js-item-base");
     });
 }
 
 function selecionarPerfil(event) {
   const perfilId = event.currentTarget.dataset.perfil;
-  const perfil = perfis.filter((el) => el.id === Number(perfilId))[0];
+  const perfil = storage.perfis.filter((el) => el.id === Number(perfilId))[0];
 
   localStorage.setItem("perfil", JSON.stringify(perfil));
 
-  document
-    .querySelectorAll("#menuPerfis .menu-perfil-item .dropdown-item")
-    .forEach((el) => {
-      el.removeEventListener("click", function () {});
-      el.remove();
-    });
+  $("#menuPerfis .menu-perfil-item .dropdown-item")
+    .unbind("click", () => {})
+    .remove();
+
   carregarPerfil();
   carregarPerfis();
 }
 
 function notificacoes() {
-  const novidadesNaoLidas = novidades.filter((el) => !el.visualizado);
-
-  const modelo = document.querySelector("#menuNovidades .menu-item");
-  modelo.classList.remove("d-none");
-  modelo.remove();
-
-  const base = document.querySelector("#menuNovidades");
+  const novidadesNaoLidas = storage.novidades.filter((el) => !el.visualizado);
+  const itemTemplate = $("#menuNovidades template.menu-novidades-modelo");
+  const modelo = $(itemTemplate.prop("content")).clone();
   novidadesNaoLidas.forEach((novidade) => {
-    const itemModelo = modelo.cloneNode(true);
-
-    const itemLink = encontrarFilho(
-      itemModelo.childNodes,
-      callbackClassList(itemModelo.childNodes, "dropdown-item")
-    );
-
-    const itemImg = encontrarFilho(
-      itemLink.childNodes,
-      callbackTagName(itemLink.childNodes, "img")
-    );
-    itemImg.src = novidade.imagem;
-
-    const itemTextos = encontrarFilho(
-      itemLink.childNodes,
-      callbackClassList(itemLink.childNodes, "bloco-novidades-textos")
-    );
-    const tipo = document.createElement("p");
-    tipo.innerText = novidade.tipo;
-    const texto = document.createElement("p");
-    texto.innerText = novidade.texto;
-    const infos = document.createElement("small");
-    infos.innerText = novidade.info;
-
-    // debugger
-    itemTextos.innerHTML = "";
-    itemTextos.appendChild(tipo);
-    itemTextos.appendChild(texto);
-    itemTextos.appendChild(infos);
-
-    base.appendChild(itemModelo);
+    // itemModelo.find('.dropdown-item')
+    modelo.find(".dropdown-item img").attr("src", novidade.imagem);
+    const novidadesElementos = [
+      $("<p></p>").text(novidade.tipo),
+      $("<p></p>").text(novidade.texto),
+      $("<small></small>").text(novidade.info),
+    ];
+    modelo.find(".bloco-novidades-textos").html("").append(novidadesElementos);
+    modelo.appendTo("#menuNovidades");
   });
 }
 
 function carregarNovidades() {
-  const novidadesNaoLidas = novidades.filter((el) => !el.visualizado);
-  const blocoNovidade = document.querySelector("#blocoNovidades");
-  const badge = encontrarFilho(
-    blocoNovidade.childNodes,
-    callbackClassList(blocoNovidade.childNodes, "badge")
-  );
-  if (!novidadesNaoLidas.length) {
-    badge.classList.add("d-none");
+  const novidadesNaoLidas = storage.novidades.filter((el) => !el.visualizado);
+
+  const badge = $("#blocoNovidades .badge");
+  if (novidadesNaoLidas.length) {
+    badge
+      .removeClass("d-none")
+      .find(".novidades-texto")
+      .text(novidadesNaoLidas.length > 99 ? "99+" : novidadesNaoLidas.length);
   } else {
-    badge.classList.remove("d-none");
-    const badgeText = encontrarFilho(
-      badge.childNodes,
-      callbackClassList(badge.childNodes, "novidades-texto")
-    );
-    badgeText.innerText =
-      novidadesNaoLidas.length > 99 ? "99+" : novidadesNaoLidas.length;
+    badge.addClass("d-none");
   }
 }
 
 function visualizarNovidades(event) {
-  novidades.forEach((el) => (el.visualizado = true));
+  storage.novidades.forEach((el) => (el.visualizado = true));
 
   carregarNovidades();
 }
@@ -173,8 +91,9 @@ function buscarFilmes(event) {
   }
 }
 
-function carregarSlideFilmes() {
+function carregarSliderFilmes() {
   const categorias = {};
+  const filmes = storage.filmes;
   for (let i = 0; i < filmes.length; i++) {
     for (let j = 0; j < filmes[i].categorias.length; j++) {
       if (!categorias[filmes[i].categorias[j]])
@@ -185,126 +104,103 @@ function carregarSlideFilmes() {
 
   console.log("CATEGORIAS", categorias);
 
-  const modelo = document.querySelector(
-    ".listagem-categorias .categorias-item"
-  );
-  modelo.classList.remove("d-none");
-  modelo.remove();
+  const itemTemplate = $("template.listagem-categorias-modelo");
 
-  const base = document.querySelector(".listagem-categorias");
   Object.keys(categorias).forEach((categoria) => {
-    console.log("Categoria", categorias[categoria]);
-    const modeloItem = modelo.cloneNode(true);
+    const modelo = $(itemTemplate.prop("content")).children().clone();
 
-    const categoria_titulo = encontrarFilho(
-      modeloItem.childNodes,
-      callbackClassList(modeloItem.childNodes, "categoria-titulo")
-    );
-    categoria_titulo.innerText = categoria;
-
-    const carousel = encontrarFilho(
-      modeloItem.childNodes,
-      callbackClassList(modeloItem.childNodes, "carousel")
-    );
-
-    const carousel_inner = encontrarFilho(
-      carousel.childNodes,
-      callbackClassList(carousel.childNodes, "carousel-inner")
-    );
-
-    const modeloListagemItem = encontrarFilho(
-      carousel_inner.childNodes,
-      callbackClassList(carousel_inner.childNodes, "carousel-item")
-    ).cloneNode();
-    modeloListagemItem.classList.remove("active");
-    carousel_inner.innerHTML = "";
-
-    const filmes_categoria = [...categorias[categoria]];
-    const carouselFilmesItens = [];
-    do {
-      const filmes_splice = filmes_categoria.splice(0, 5);
-      const carousel_item = modeloListagemItem.cloneNode();
-
-      if (carouselFilmesItens.length === 0)
-        carousel_item.classList.add("active");
-
-      const el_listagem_filmes = document.createElement("div");
-      el_listagem_filmes.classList.add(
-        ...["listagem-filmes", "d-flex", "align-items-center"]
-      );
-      filmes_splice.forEach((filme) => {
-        const el_filme_link = document.createElement("a");
-        el_filme_link.href = `filme.html?id=${filme.id}&nome=${filme.nome}`;
-        el_filme_link.classList.add("listagem-filmes-item");
-        const el_filme_figure = document.createElement("figure");
-        el_filme_figure.classList.add("mb-0");
-        const el_filme_imagem = document.createElement("div");
-        el_filme_imagem.classList.add(
-          ...["imagem-background", "imagem-background--cover"]
-        );
-        el_filme_imagem.style.backgroundImage = `url(${filme.imagem})`;
-
-        el_filme_figure.appendChild(el_filme_imagem);
-        el_filme_link.appendChild(el_filme_figure);
-        el_listagem_filmes.appendChild(el_filme_link);
-      });
-
-      carousel_item.appendChild(el_listagem_filmes);
-      carousel_inner.appendChild(carousel_item);
-
-      carouselFilmesItens.push(filmes_splice);
-    } while (filmes_categoria.length);
+    modelo.find(".categoria-titulo").text(categoria);
 
     const id_carousel = `carousel${categoria.split(" ").join("")}`;
-    carousel.id = id_carousel;
+    const carousel = modelo.find(".carousel");
+    carousel.attr("id", id_carousel);
 
-    const navegacao = encontrarFilho(
-      carousel.childNodes,
-      callbackClassList(carousel.childNodes, "carousel-navegacao")
-    );
+    const filmes_categoria = [...categorias[categoria]];
+    const filmes_grupos = carregarCarouselItens(carousel, filmes_categoria);
+    montarCarouselNavegacao(filmes_grupos, carousel, id_carousel);
 
-    const carousel_controls = encontrarFilhos(
-      carousel.childNodes,
-      callbackClassList(carousel.childNodes, "carousel-control")
-    );
-
-    const modeloNavegacao = encontrarFilho(
-      navegacao.childNodes,
-      callbackTagName(navegacao.childNodes, "button")
-    ).cloneNode();
-    modeloNavegacao.classList.remove("active");
-
-    navegacao.innerHTML = "";
-    for (let i = 0; i < carouselFilmesItens.length; i++) {
-      const itemNavegacao = modeloNavegacao.cloneNode();
-      itemNavegacao.dataset.bsTarget = `#${id_carousel}`;
-      itemNavegacao.dataset.bsSlideTo = i;
-      itemNavegacao.ariaLabel = `Slide ${i}`;
-
-      if (i === 0) itemNavegacao.classList.add("active");
-
-      navegacao.appendChild(itemNavegacao);
-    }
-
-    if (carouselFilmesItens.length > 1) {
-      carousel_controls.forEach((control) => {
-        control.dataset.bsTarget = `#${id_carousel}`;
-        console.log(control.dataset);
-      });
-    } else {
-      carousel_controls.forEach((control) => control.remove());
-    }
-
-    base.appendChild(modeloItem);
+    modelo.appendTo(".listagem-categorias");
   });
+}
+
+function carregarCarouselItens(carousel, filmes_categoria) {
+  const carousel_filmes_groupo = [];
+  const carousel_inner = carousel.find(".carousel-inner");
+
+  const carousel_item_template = $(
+    carousel_inner.find("template.carousel-item-template").prop("content")
+  );
+  const carousel_modelo = carousel_item_template.children(".carousel-item");
+  do {
+    const filmes_splice = filmes_categoria.splice(0, 5);
+    const carousel_item = carousel_modelo.clone();
+
+    if (carousel_filmes_groupo.length === 0) carousel_item.addClass("active");
+
+    const listagem_filmes = carousel_item.children();
+    const filmes_item_modelo = listagem_filmes.children();
+
+    filmes_splice.forEach((item) => {
+      const listagem_filmes_item = $(filmes_item_modelo.get(0).cloneNode(true));
+      listagem_filmes_item
+        .find(".imagem-background")
+        .css("background-image", `url(${item.imagem})`);
+      listagem_filmes_item.attr(
+        "href",
+        `filme.html?id=${item.id}&nome=${item.nome}`
+      );
+
+      listagem_filmes.append(listagem_filmes_item);
+    });
+    filmes_item_modelo.remove();
+
+    carousel_item.appendTo(carousel_inner);
+
+    carousel_filmes_groupo.push(filmes_splice);
+  } while (filmes_categoria.length);
+
+  return carousel_filmes_groupo;
+}
+
+function montarCarouselNavegacao(filmes_grupos, carousel, id_carousel) {
+  const navegacao_template = $(
+    carousel
+      .find(".carousel-navegacao template.carousel-navegacao-item-modelo")
+      .prop("content")
+  );
+
+  for (let i = 0; i < filmes_grupos.length; i++) {
+    const item_navegacao = navegacao_template.clone().find("button");
+    item_navegacao.attr({
+      "data-bs-target": `#${id_carousel}`,
+      "data-bs-slide-to": i,
+      "aria-label": `Slide ${i}`,
+      "aria-current": i === 0,
+    });
+
+    if (i === 0) item_navegacao.addClass("active");
+
+    item_navegacao.appendTo(carousel.find(".carousel-navegacao"));
+  }
+
+  const carousel_controls = $(
+    carousel.find("template.carousel-controles-template").prop("content")
+  ).clone();
+  if (filmes_grupos.length > 1) {
+    carousel_controls.find("button").each(function (indice, elemento) {
+      $(elemento).attr("data-bs-target", `#${id_carousel}`).appendTo(carousel);
+    });
+  }
 }
 
 window.onload = function () {
   carregarPerfil();
   carregarPerfis();
+
   carregarNovidades();
   notificacoes();
-  carregarSlideFilmes();
+
+  carregarSliderFilmes();
 
   botoesSair();
 
